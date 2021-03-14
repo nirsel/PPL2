@@ -8,7 +8,9 @@ const findOrThrow = <T>(pred: (x: T) => boolean, a: T[]): T => {
     throw "No element found.";
 }
 
-export const findResult = undefined;
+export const findResult = <T>(pred:(x: T) => boolean,a:T[]): Result<T> => 
+     a.reduce((acc:Result<T>, curr:T):Result<T>=>
+         pred(curr) && isFailure(acc) ? makeOk(curr): acc, makeFailure("no element found"));
 
 /* Client code */
 const returnSquaredIfFoundEven_v1 = (a: number[]): number => {
