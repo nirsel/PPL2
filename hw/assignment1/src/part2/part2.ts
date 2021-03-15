@@ -25,9 +25,11 @@ export const runLengthEncoding = (str:string): string =>{
 
 /* Question 3 */
 export const isPaired = (str:string):boolean=>{
-    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}"));
+    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}")).reverse();
     const ans:string = par.reduce((acc:string, curr:string):string=>
-    acc!=""&&curr!="(")
+    acc!=""&&(curr==="("||curr==="["||curr==="{")?
+    checkPair(acc, curr)?:"":
+    curr,"");
 }
 
 console.log(runLengthEncoding("abccdd"));
