@@ -20,16 +20,16 @@ export const runLengthEncoding = (str:string): string =>{
     acc.substring(0,acc.length-1)+(Number(acc[acc.length-1])+1):
     acc+curr+1
     ,"");
+    const x:string[]=["a"];
+    const fun=<any>((x:any[]) => x.reduce((acc, cur) => acc + cur, 0));
+    console.log(fun(x));
     return ans.split('1').join('');
 }
 
 /* Question 3 */
-export const isPaired = (str:string):boolean=>{
-    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}")).reverse();
-    const ans:string = par.reduce((acc:string, curr:string):string=>
-    acc!=""&&(curr==="("||curr==="["||curr==="{")?
-    checkPair(acc, curr)?:"":
-    curr,"");
-}
+//export const isPaired = (str:string):boolean=>{
+  //  const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}")).reverse();
+    
+//}
 
-console.log(runLengthEncoding("abccdd"));
+console.log(runLengthEncoding("abbcdddaa"));
