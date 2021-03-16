@@ -15,13 +15,12 @@ export const countVowels = (str: string): number =>{
 /* Question 2 */
 export const runLengthEncoding = (str:string): string =>{
     const arr: string[] = stringToArray(str);
-    const ans:string = arr.reduce((acc:string, curr:string):string=> 
-    acc!=""&&acc[acc.length-2]===curr?
-    acc.substring(0,acc.length-1)+(Number(acc[acc.length-1])+1):
-    acc+curr+1
-    ,"");
-    return ans.split('1').join('');
-    
+    const ans:string[] = arr.reduce((acc:string[], curr:string):string[]=> 
+    acc.length!=0&&acc[acc.length-2]===curr?
+    acc.slice(0,acc.length-1).concat(new Array(String(Number(acc[acc.length-1])+1))):
+    acc.concat(new Array(curr,"1"))
+    ,[]);
+    return ans.filter((s:string) => s!="1").join("");
 }
 
 /* Question 3 */
@@ -41,5 +40,6 @@ export const isPaired = (str:string): boolean=>{
     "false","");
     return ans==="";
 }
+
 
 
