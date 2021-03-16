@@ -9,7 +9,6 @@ export const countVowels = (str: string): number =>{
     const arr:string []= stringToArray(a);
     const result:string[] = arr.filter((s:string):boolean =>(s==='O'||s==='I'|| s==='A'|| s==='E' || s==='U'));
     return result.length;
-    //return result.reduce((acc:number, curr:string):number=>(acc+1),0);
 }
 
 /* Question 2 */
