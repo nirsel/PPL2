@@ -27,9 +27,23 @@ export const runLengthEncoding = (str:string): string =>{
 }
 
 /* Question 3 */
-//export const isPaired = (str:string):boolean=>{
-  //  const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}")).reverse();
-    
-//}
+export const isPaired = (str:string): boolean=>{
+    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}"))
+    const isOpener = (s:string): boolean=> (s==="("||s==="["||s==="{");
+    const checkPair = (open:string, closer:string): boolean=>{
+      return (open==="("&&closer===")")||(open==="["&&closer==="]")||(open==="{"&&closer==="}");
+    }
+    const ans:string=par.reduce((acc:string,curr:string):string=>
+    acc!=""&&isOpener(curr)?
+    acc+curr:
+    acc.length===0?
+    curr:
+    checkPair(acc[acc.length-1],curr)?
+    acc.substring(0,acc.length-1):
+    "false","");
+    return ans==="";
+}
 
-console.log(runLengthEncoding("abbcdddaa"));
+
+
+console.log(isPaired("(()"));
