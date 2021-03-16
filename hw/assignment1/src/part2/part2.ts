@@ -21,11 +21,12 @@ export const runLengthEncoding = (str:string): string =>{
     acc+curr+1
     ,"");
     return ans.split('1').join('');
+    
 }
 
 /* Question 3 */
 export const isPaired = (str:string): boolean=>{
-    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}"))
+    const par:string[]=stringToArray(str).filter((s:string):boolean=>(s==="("||s==="["||s==="{"||s===")"||s==="]"||s==="}"));
     const isOpener = (s:string): boolean=> (s==="("||s==="["||s==="{");
     const checkPair = (open:string, closer:string): boolean=>{
       return (open==="("&&closer===")")||(open==="["&&closer==="]")||(open==="{"&&closer==="}");
@@ -42,5 +43,3 @@ export const isPaired = (str:string): boolean=>{
 }
 
 
-
-console.log(isPaired("(()"));

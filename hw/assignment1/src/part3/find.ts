@@ -1,4 +1,4 @@
-import { Result, makeFailure, makeOk, bind, either } from "../lib/result";
+import { Result, makeFailure, makeOk, bind, either, isFailure, isOk } from "../lib/result";
 
 /* Library code */
 const findOrThrow = <T>(pred: (x: T) => boolean, a: T[]): T => {
@@ -22,6 +22,9 @@ const returnSquaredIfFoundEven_v1 = (a: number[]): number => {
     }
 }
 
-export const returnSquaredIfFoundEven_v2 = undefined;
+export const returnSquaredIfFoundEven_v2 = (a: number[]): Result<number> =>{
+    return bind(findResult((x:number):boolean=> x%2===0 ,a),(x:number):Result<number> => makeOk(x*x));}
 
-export const returnSquaredIfFoundEven_v3 = undefined;
+export const returnSquaredIfFoundEven_v3 = (a:number[]): number =>{
+    return either(findResult((x:number):boolean=> x%2===0 ,a),(x:number):number=>x*x,(x:string):number=>-1);
+}
