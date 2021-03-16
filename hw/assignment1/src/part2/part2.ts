@@ -20,9 +20,6 @@ export const runLengthEncoding = (str:string): string =>{
     acc.substring(0,acc.length-1)+(Number(acc[acc.length-1])+1):
     acc+curr+1
     ,"");
-    const x:string[]=["a"];
-    const fun=<any>((x:any[]) => x.reduce((acc, cur) => acc + cur, 0));
-    console.log(fun(x));
     return ans.split('1').join('');
 }
 
