@@ -17,17 +17,16 @@
 )
 
 (define duplicate-first
-  (lambda (num item)
-    (if (equal?  num 1)
-        (list item)
-        (append  (list item) (duplicate-first (- num 1) item)))))
+  (lambda (lst item num)
+    (if (zero? num)
+        lst
+        (duplicate-first (cons item lst) item (- num 1)))))
+
 (define duplicate-items
   (lambda (lst dup-count)
     (if (empty? lst)
-        '()
-        (if (zero? (car dup-count))
-            (duplicate-items (cdr lst) (append (cdr dup-count) (car dup-count)))
-            (append (duplicate-first (car dup-count) (car lst)) (duplicate-items (cdr lst) (append (cdr dup-count) (car dup-count))))))))
+        lst
+        (append (duplicate-first '() (car lst) (car dup-count)) (duplicate-items (cdr lst) (append (cdr dup-count) (list(car dup-count))))))))
 
 
 ;(define payment
