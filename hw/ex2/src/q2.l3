@@ -29,11 +29,25 @@
         (append (duplicate-first '() (car lst) (car dup-count)) (duplicate-items (cdr lst) (append (cdr dup-count) (list(car dup-count))))))))
 
 
-;(define payment
- ; (lambda (n coins-lst)
-  ;      @TODO
-  ;)
-;)
+(define remove-all
+  (lambda (val lst)
+    (if (empty? lst)
+        '()
+    (if (not (equal? val (car lst)))
+        lst
+        (remove-all val (cdr lst))))))
+  
+(define payment
+  (lambda (n coins-lst)
+        (if (zero? n)
+        1
+        (if (or (< n 0) (empty? coins-lst))
+        0
+        (if (< (- n (car coins-lst)) 0)
+          (payment n (cdr coins-lst))
+          (if (and (not (empty? (cdr coins-lst))) (= (car coins-lst) (cadr coins-lst)))
+              (+ (payment n (remove-all (car coins-lst) coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))
+          (+ (payment n (cdr coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))))))))
                                
 ;(define compose-n
  ; (lambda( f n)
@@ -41,4 +55,3 @@
  ; )
 ;)
 
-(append '(1 2) '(3 4))
