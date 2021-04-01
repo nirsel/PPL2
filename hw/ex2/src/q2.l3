@@ -49,9 +49,10 @@
               (+ (payment n (remove-all (car coins-lst) coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))
           (+ (payment n (cdr coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))))))))
                                
-;(define compose-n
- ; (lambda( f n)
- ;       @TODO
- ; )
-;)
+(define compose-n
+  (lambda(f n)
+        (if (= n 1)
+            (lambda (x) (f x))
+         (lambda (x) (f ((compose-n f (- n 1)) x)))
+  )))
 
