@@ -1,6 +1,6 @@
 (define append 
   (lambda (lst1 lst2)
-      (if (empty? lst1) 
+      (if (eq? lst1 '()) 
       lst2
       (cons (car lst1) 
             (append (cdr lst1) lst2))))
@@ -9,7 +9,7 @@
 
 (define reverse 
   (lambda (lst)
-        (if (empty? lst)
+        (if (eq? lst '()) 
           '()
           (append (reverse (cdr lst)) (list (car lst)))
         )
@@ -18,36 +18,32 @@
 
 (define duplicate-first
   (lambda (lst item num)
-    (if (zero? num)
+    (if (= 0 num)
         lst
         (duplicate-first (cons item lst) item (- num 1)))))
 
 (define duplicate-items
   (lambda (lst dup-count)
-    (if (empty? lst)
+    (if (eq? lst '()) 
         lst
         (append (duplicate-first '() (car lst) (car dup-count)) (duplicate-items (cdr lst) (append (cdr dup-count) (list(car dup-count))))))))
 
 
 (define remove-all
-  (lambda (val lst)
-    (if (empty? lst)
-        '()
-    (if (not (equal? val (car lst)))
+  (lambda (x lst)
+    (if (eq? '() lst)
         lst
-        (remove-all val (cdr lst))))))
+        (if (eq? (car lst) x)
+            (remove-all x (cdr lst))
+            (cons (car lst) (remove-all x (cdr lst)))))))
   
 (define payment
   (lambda (n coins-lst)
-        (if (zero? n)
+        (if (= 0 n)
         1
-        (if (or (< n 0) (empty? coins-lst))
+        (if (or (< n 0) (eq? '() coins-lst))
         0
-        (if (< (- n (car coins-lst)) 0)
-          (payment n (cdr coins-lst))
-          (if (and (not (empty? (cdr coins-lst))) (= (car coins-lst) (cadr coins-lst)))
-              (+ (payment n (remove-all (car coins-lst) coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))
-          (+ (payment n (cdr coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))))))))
+         (+ (payment n (remove-all (car coins-lst) coins-lst)) (payment (- n (car coins-lst)) (cdr coins-lst)))))))
                                
 (define compose-n
   (lambda(f n)
@@ -55,4 +51,6 @@
             (lambda (x) (f x))
          (lambda (x) (f ((compose-n f (- n 1)) x)))
   )))
+
+  
 
