@@ -271,13 +271,24 @@ export const parseSExp = (sexp: Sexp): Result<SExpValue> =>
             (parseSExp(first(sexp)), parseSExp(rest(sexp)))) :
     sexp;
 
-export  const parseClassExp = (fields: Sexp[], methods: Sexp[]): Result<ClassExp> => 
+export  const parseClassExp = (fields: Sexp[], methods: Sexp[]): Result<ClassExp> => {
+    if (isArray(fields) && allT(isString, fields)&&isGoodBindings(methods)){
+        const fields_parsed = mapResult(parseL31CExp, fields);
+        const var_decs = makeOk(map(makeVarDecl, fields));
+        const methods_parsed = mapResult(parseL31CExp, methods);
+        const bindings = makeOk(map((x:string, y:Sexp[])=>makeBinding(x, y)
+        
+        return safe2((fields_parsed1:VarDecl[], methods_parsed1:Binding[])=>makeOk(makeClassExp(fields_parsed1,methods_parsed1)))
+        (var_decs,methods_parsed);
+    } 
+}
 
 
 // ==========================================================================
 // Unparse: Map an AST to a concrete syntax string.
 
 import { isSymbolSExp, isEmptySExp, isCompoundSExp } from '../imp/L3-value';
+import { safe3 } from "../shared/optional";
 
 
 // Add a quote for symbols, empty and compound sexp - strings and numbers are not quoted.
