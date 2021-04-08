@@ -170,7 +170,7 @@ export const parseL31SpecialForm = (op: Sexp, params: Sexp[]): Result<CExp> =>
     op === "lambda" ? parseProcExp(first(params), rest(params)) :
     op === "let" ? parseLetExp(first(params), rest(params)) :
     op === "quote" ? parseLitExp(first(params)) :
-    op === "class" ? parseClassExp(first(params), rest(params)):
+    op === "class" ? parseClassExp(params):
     makeFailure("Never");
 
 // DefineExp -> (define <varDecl> <CExp>)
@@ -271,16 +271,21 @@ export const parseSExp = (sexp: Sexp): Result<SExpValue> =>
             (parseSExp(first(sexp)), parseSExp(rest(sexp)))) :
     sexp;
 
-export  const parseClassExp = (fields: Sexp[], methods: Sexp[]): Result<ClassExp> => {
+
+export  const parseClassExp = (params: Sexp[]): Result<ClassExp> => {
+    const fields = first(params);
+    const methods = rest(params); //array of arrays, each inside array is function declaratation
     if (isArray(fields) && allT(isString, fields)&&isGoodBindings(methods)){
-        const fields_parsed = mapResult(parseL31CExp, fields);
         const var_decs = makeOk(map(makeVarDecl, fields));
-        const methods_parsed = mapResult(parseL31CExp, methods);
-        const bindings = makeOk(map((x:string, y:Sexp[])=>makeBinding(x, y)
-        
+        const vars = map(b=>b[0], methods);
+        const valsResult = mapResult(methods => parseL31CExp(second(methods)), methods);
+        const bindingsResult = bind(valsResult, (vals: CExp[]) => makeOk(zipWith(makeBinding, vars, vals)));
+        console.log(bindingsResult);
         return safe2((fields_parsed1:VarDecl[], methods_parsed1:Binding[])=>makeOk(makeClassExp(fields_parsed1,methods_parsed1)))
-        (var_decs,methods_parsed);
+        (var_decs,bindingsResult);
     } 
+    return makeFailure("failure");
+     
 }
 
 
