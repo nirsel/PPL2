@@ -274,19 +274,18 @@ export const parseSExp = (sexp: Sexp): Result<SExpValue> =>
 
 export  const parseClassExp = (params: Sexp[]): Result<ClassExp> => {
     const fields = first(params);
-    const methods = rest(params); //array of arrays, each inside array is function declaratation
+    const methods = rest(params)[0]; 
     if (isArray(fields) && allT(isString, fields)&&isGoodBindings(methods)){
         const var_decs = makeOk(map(makeVarDecl, fields));
         const vars = map(b=>b[0], methods);
         const valsResult = mapResult(methods => parseL31CExp(second(methods)), methods);
         const bindingsResult = bind(valsResult, (vals: CExp[]) => makeOk(zipWith(makeBinding, vars, vals)));
-        console.log(bindingsResult);
         return safe2((fields_parsed1:VarDecl[], methods_parsed1:Binding[])=>makeOk(makeClassExp(fields_parsed1,methods_parsed1)))
         (var_decs,bindingsResult);
     } 
-    return makeFailure("failure");
+    return makeFailure("failure");}
      
-}
+
 
 
 // ==========================================================================
@@ -312,6 +311,12 @@ const unparseProcExp = (pe: ProcExp): string =>
 const unparseLetExp = (le: LetExp) : string => 
     `(let (${map((b: Binding) => `(${b.var.var} ${unparseL31(b.val)})`, le.bindings).join(" ")}) ${unparseLExps(le.body)})`
 
+const unparseBinding = (b: Binding) : string => '('+b.var.var+' '+unparseL31(b.val)+')'
+     
+
+const unparseClassExp = (cl: ClassExp) : string =>
+    '(class ('+map((b:VarDecl)=>b.var,cl.fields).join(" ")+') ('+(map((b:Binding)=>unparseBinding(b), cl.methods)).join(" ")+'))'
+
 export const unparseL31 = (exp: Program | Exp): string =>
     isBoolExp(exp) ? valueToString(exp.val) :
     isNumExp(exp) ? valueToString(exp.val) :
@@ -325,5 +330,5 @@ export const unparseL31 = (exp: Program | Exp): string =>
     isLetExp(exp) ? unparseLetExp(exp) :
     isDefineExp(exp) ? `(define ${exp.var.var} ${unparseL31(exp.val)})` :
     isProgram(exp) ? `(L31 ${unparseLExps(exp.exps)})` :
-    isClassExp(exp) ? `(L31 )`:
+    isClassExp(exp) ? unparseClassExp(exp):
     exp;
