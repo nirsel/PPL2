@@ -13,6 +13,7 @@ describe('Q4 Tests', () => {
      it('parse primitive ops', () => {
          expect(l2ToPythonResult(`(+ 3 5 7)`)).to.deep.equal(makeOk(`(3 + 5 + 7)`));
          expect(l2ToPythonResult(`(= 3 (+ 1 2))`)).to.deep.equal(makeOk(`(3 == (1 + 2))`));
+         expect(l2ToPythonResult(`(and (> 3 1) (= 4 5))`)).to.deep.equal(makeOk(`((3 > 1) and (4 == 5))`));
      });
 
      it('parse "if" expressions', () => {

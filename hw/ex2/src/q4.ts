@@ -32,17 +32,16 @@ export const reWritePrim = (e:PrimOp):string=>
 
 
 export const reWriteApp = (e:AppExp):string=>
-    isPrimOp(e.rator)? 
-    (unparseL31(e.rator)==='=')? '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' '+reWritePython(e.rator)).join(' ').slice(0,-3)+')':
+    isPrimOp(e.rator)? (unparseL31(e.rator)==='=')? '('+e.rands.map((exp:CExp)=>reWritePython(exp)).join(' '+reWritePython(e.rator)+' ')+')':
     (unparseL31(e.rator)==='not')?
     '('+unparseL31(e.rator)+' '+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='number?')?
-    '(lambda x : (type(x) == int)'+'('+reWritePython(e.rands[0])+'))':
+    '(lambda x : (type(x) == int))'+'('+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='boolean?')?
-    '(lambda x : (type(x) == bool)'+'('+reWritePython(e.rands[0])+'))':
+    '(lambda x : (type(x) == bool))'+'('+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='eq?')?
-    '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' ==').join(' ').slice(0,-3)+')':
-    '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' '+reWritePython(e.rator)).join(' ').slice(0,-2)+')':
+    '('+e.rands.map((exp:CExp)=>reWritePython(exp)).join(' == ')+')':
+    '('+e.rands.map((exp:CExp)=>reWritePython(exp)).join(' '+reWritePython(e.rator)+' ')+')':
     reWritePython(e.rator)+'('+e.rands.reduce((acc,curr)=>acc.concat(reWritePython(curr)+','),"").slice(0,-1)+')'
     
 

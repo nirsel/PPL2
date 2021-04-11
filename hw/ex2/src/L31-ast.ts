@@ -275,7 +275,7 @@ export const parseSExp = (sexp: Sexp): Result<SExpValue> =>
 export  const parseClassExp = (params: Sexp[]): Result<ClassExp> => {
     const fields = first(params);
     const methods = rest(params)[0]; 
-    if (isArray(fields) && allT(isIdentifier, fields)&&isGoodBindings(methods)){ //maybe change to isIdentifier in allT?
+    if (isArray(fields) && allT(isIdentifier, fields)&&isGoodBindings(methods)){ 
         const var_decs = makeOk(map(makeVarDecl, fields));
         const vars = map(b=>b[0], methods);
         const valsResult = mapResult(methods => parseL31CExp(second(methods)), methods);
