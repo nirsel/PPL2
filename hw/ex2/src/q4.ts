@@ -44,13 +44,6 @@ export const reWriteApp = (e:AppExp):string=>
     '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' ==').join(' ').slice(0,-3)+')':
     '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' '+reWritePython(e.rator)).join(' ').slice(0,-2)+')':
     reWritePython(e.rator)+'('+e.rands.reduce((acc,curr)=>acc.concat(reWritePython(curr)+','),"").slice(0,-1)+')'
-    //if (isPrimOp(e.rator)){
-     //    if (unparseL31(e.rator)==='=')
-       //     return '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' '+reWritePython(e.rator)).join(' ').slice(0,-3)+')';
-      //  if (unparseL31(e.rator)==='not')
-      //      return '('+unparseL31(e.rator)+' '+reWritePython(e.rands[0])+')';
-        
-     //   return '('+e.rands.map((exp:CExp)=>reWritePython(exp)+' '+reWritePython(e.rator)).join(' ').slice(0,-2)+')'; }
-  //  return reWritePython(e.rator)+'('+e.rands.reduce((acc,curr)=>acc.concat(reWritePython(curr)+','),"").slice(0,-1)+')';
+    
 
 
