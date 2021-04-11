@@ -1,4 +1,4 @@
-import { unparseL31,makeVarDecl, DefineExp, isAppExp, isCExp, isDefineExp, isIfExp, isLitExp, makeLetExp,Binding, makeDefineExp, makeAppExp, CExp, ClassExp, ProcExp,  Exp, Program, makeIfExp, parseL31CExp, parseL31, IfExp, makeProcExp, parseSExp, isClassExp, makeProgram, isProgram, isAtomicExp, isCompoundExp, isBinding, isBoolExp, isLetExp, isNumExp, isPrimOp, isProcExp, isStrExp, isVarDecl, isVarRef, makeLitExp, makeBoolExp, AppExp, makePrimOp, makeVarRef } from "./L31-ast";
+import { unparseL31,makeVarDecl, DefineExp, isAppExp, isCExp, isDefineExp, isIfExp, isLitExp, makeLetExp,Binding, makeDefineExp, makeAppExp, CExp, ClassExp, ProcExp,  Exp, Program, makeIfExp, parseL31CExp, parseL31, IfExp, makeProcExp, parseSExp, isClassExp, makeProgram, isProgram, isAtomicExp, isCompoundExp, isBinding, isBoolExp, isLetExp, isNumExp, isPrimOp, isProcExp, isStrExp, isVarDecl, isVarRef, makeLitExp, makeBoolExp, AppExp, makePrimOp, makeVarRef, makeBinding } from "./L31-ast";
 import { Result, makeFailure, mapResult,makeOk, bind } from "../shared/result";
 import { map, zipWith, reduce } from "ramda";
 import { parse as p, isSexpString, isToken } from "../shared/parser";
@@ -72,7 +72,7 @@ isIfExp(e) ?  (makeIfExp(reWriteCExp(e.test),
 isAppExp(e) ? makeAppExp(reWriteCExp(e.rator), map(reWriteCExp, e.rands)) :
 isProcExp(e)? makeProcExp(e.args, map(reWriteCExp,e.body)):
 isClassExp(e) ? class2proc(e):
-isLetExp(e)? makeLetExp(e.bindings,map(reWriteCExp,e.body)):
+isLetExp(e)? makeLetExp(map((bind)=>makeBinding(bind.var.var,reWriteCExp(bind.val)),e.bindings),map(reWriteCExp,e.body)):
 isLitExp(e) ? e: 
 e;
 
