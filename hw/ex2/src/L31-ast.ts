@@ -279,6 +279,9 @@ export  const parseClassExp = (params: Sexp[]): Result<ClassExp> => {
         const var_decs = makeOk(map(makeVarDecl, fields));
         const vars = map(b=>b[0], methods);
         const valsResult = mapResult(methods => parseL31CExp(second(methods)), methods);
+        const check : Result<Boolean> = bind(valsResult,(x:CExp[])=>makeOk(x.reduce((acc,curr)=>acc&&isProcExp(curr),true)))
+        if (check.tag!="Ok"||check.value===false)
+            return makeFailure("failure");
         const bindingsResult = bind(valsResult, (vals: CExp[]) => makeOk(zipWith(makeBinding, vars, vals)));
         return safe2((fields_parsed1:VarDecl[], methods_parsed1:Binding[])=>makeOk(makeClassExp(fields_parsed1,methods_parsed1)))
         (var_decs,bindingsResult);
