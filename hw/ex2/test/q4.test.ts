@@ -13,11 +13,29 @@ describe('Q4 Tests', () => {
      it('parse primitive ops', () => {
          expect(l2ToPythonResult(`(+ 3 5 7)`)).to.deep.equal(makeOk(`(3 + 5 + 7)`));
          expect(l2ToPythonResult(`(= 3 (+ 1 2))`)).to.deep.equal(makeOk(`(3 == (1 + 2))`));
-         expect(l2ToPythonResult(`(and (> 3 1) (= 4 5))`)).to.deep.equal(makeOk(`((3 > 1) and (4 == 5))`));
      });
 
+     it("parse eq?", () => {
+        expect(l2ToPythonResult(`(eq? 3 4)`)).to.deep.equal(makeOk(`(3 == 4)`));
+    });
+    it("parse number?", () => {
+        expect(l2ToPythonResult(`(number? 3)`)).to.deep.equal(makeOk(`(lambda x : ((type(x) == int) or (type(x) == float)))(3)`));
+    });
+    it("parse or", () => {
+        expect(l2ToPythonResult(`(or x y)`)).to.deep.equal(makeOk(`(x or y)`));
+    });
+    it("parse not", () => {
+        expect(l2ToPythonResult(`(not y)`)).to.deep.equal(makeOk(`(not y)`));
+    });
+
+    
+    it("parse if as operator", () => {
+        expect(l2ToPythonResult(`(not y)`)).to.deep.equal(makeOk(`(not y)`));
+    });
+
+
      it('parse "if" expressions', () => {
-         expect(l2ToPythonResult(`(if (> x 3) 4 5)`)).to.deep.equal(makeOk(`(4 if (x > 3) else 5)`));
+         expect(l2ToPythonResult(`((if (> 2 3) + -) 3 5 7)`)).to.deep.equal(makeOk(`(3 (+ if (2 > 3) else -) 5 (+ if (2 > 3) else -) 7)`));
      });
 
      it('parse "lambda" expressions', () => {

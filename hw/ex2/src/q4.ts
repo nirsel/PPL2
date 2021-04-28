@@ -36,7 +36,7 @@ export const reWriteApp = (e:AppExp):string=>
     (unparseL31(e.rator)==='not')?
     '('+unparseL31(e.rator)+' '+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='number?')?
-    '(lambda x : (type(x) == int))'+'('+reWritePython(e.rands[0])+')':
+    '(lambda x : ((type(x) == int) or (type(x) == float)))'+'('+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='boolean?')?
     '(lambda x : (type(x) == bool))'+'('+reWritePython(e.rands[0])+')':
     (unparseL31(e.rator)==='eq?')?

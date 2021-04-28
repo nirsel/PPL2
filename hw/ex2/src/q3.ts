@@ -71,7 +71,7 @@ isIfExp(e) ?  (makeIfExp(reWriteCExp(e.test),
                                   reWriteCExp(e.alt))) :
 isAppExp(e) ? makeAppExp(reWriteCExp(e.rator), map(reWriteCExp, e.rands)) :
 isProcExp(e)? makeProcExp(e.args, map(reWriteCExp,e.body)):
-isClassExp(e) ? class2proc(e):
+isClassExp(e) ? class2proc(makeClassExp((e.fields),map((x:Binding)=>makeBinding(x.var.var,reWriteCExp(x.val)),e.methods))):
 isLetExp(e)? makeLetExp(map((bind)=>makeBinding(bind.var.var,reWriteCExp(bind.val)),e.bindings),map(reWriteCExp,e.body)):
 isLitExp(e) ? e: 
 e;
